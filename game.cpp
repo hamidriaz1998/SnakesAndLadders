@@ -5,8 +5,8 @@
 #include <ctime>
 using namespace std;
 int rollDice();
-void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char player2);
-int Score(int playerScore, int dice);
+void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char player2, int laddersStart[], int snakesStart[]);
+int Score(int playerScore, int dice, int laddersStart[], int laddersLand[], int snakesStart[], int snakesLand[]);
 bool inArr(int arr[], int n, int size);
 string setcolor(unsigned short color);
 int black = 0, blue = 1, green = 2, cyan = 3, red = 4, magenta = 5, brown = 6, lightwhite = 7, darkwhite = 8, lightblue = 9, lightgreen = 10, lightcyan = 11, lightred = 12, lightmagenta = 13, yellow = 14, white = 15;
@@ -22,6 +22,10 @@ int main()
                         {21, 22, 23, 24, 25, 26, 27, 28, 29, 30},
                         {20, 19, 18, 17, 16, 15, 14, 13, 12, 11},
                         {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}};
+    int laddersStart[8] = {4, 9, 20, 28, 40, 63, 71, 88};
+    int laddersLand[8] = {14, 31, 38, 84, 59, 81, 91, 98};
+    int snakesStart[8] = {17, 54, 62, 64, 87, 93, 95, 99};
+    int snakesLand[8] = {7, 34, 18, 60, 24, 73, 75, 78};
     char player = '*', computer = 'x';
     int playerPosition = 0, computerPosition = 0;
     int dice;
@@ -37,8 +41,8 @@ int main()
             dice = rollDice();
             cout << "You've got " << dice << endl;
             cout << "Let's see where that gets you." << endl;
-            playerPosition = Score(playerPosition, dice);
-            Grid(grid, playerPosition, computerPosition, player, computer);
+            playerPosition = Score(playerPosition, dice, laddersStart, laddersLand, snakesStart, snakesLand);
+            Grid(grid, playerPosition, computerPosition, player, computer, laddersStart, snakesStart);
             turn = computer;
             cout << "You've played your turn\nPress any key to let the computer play................." << endl;
             getch();
@@ -50,8 +54,8 @@ int main()
             Sleep(1000);
             dice = rollDice();
             cout << "He's got " << dice << endl;
-            computerPosition = Score(computerPosition, dice);
-            Grid(grid, playerPosition, computerPosition, player, computer);
+            computerPosition = Score(computerPosition, dice, laddersStart, laddersLand, snakesStart, snakesLand);
+            Grid(grid, playerPosition, computerPosition, player, computer, laddersStart, snakesStart);
             turn = player;
             cout << "Press any key to play your continue...........";
             getch();
@@ -77,36 +81,69 @@ int rollDice()
     return num;
 }
 
-void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char player2)
+void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char player2, int laddersStart[], int snakesStart[])
 {
     int i, j;
+    bool printed = false;
     for (i = 0; i < 10; i++)
     {
         cout << "\n";
         for (j = 0; j < 10; j++)
         {
-            if (grid[i][j] == player1pos)
+            if (inArr(laddersStart, grid[i][j], 8))
             {
-                cout << left << setw(3) << player1 << " ";
+                if (grid[i][j] == player1pos)
+                {
+                    cout << left << setw(4) << player1;
+                }
+                else if (grid[i][j] == player2pos)
+                {
+                    cout << left << setw(4) << player2;
+                }
+                else
+                {
+                    cout << left << setw(4) << "L";
+                }
+                printed = true;
             }
-            else if (grid[i][j] == player2pos)
+            else if (inArr(snakesStart, grid[i][j], 8))
             {
-                cout << left << setw(3) << player2 << " ";
+                if (grid[i][j] == player1pos)
+                {
+                    cout << left << setw(4) << player1;
+                }
+                else if (grid[i][j] == player2pos)
+                {
+                    cout << left << setw(4) << player2;
+                }
+                else
+                {
+                    cout << left << setw(4) << "S";
+                }
+                printed = true;
             }
-            else
+            if (!printed)
             {
-                cout << left << setw(3) << grid[i][j] << " ";
+                if (grid[i][j] == player1pos)
+                {
+                    cout << left << setw(4) << player1;
+                }
+                else if (grid[i][j] == player2pos)
+                {
+                    cout << left << setw(4) << player2;
+                }
+                else
+                {
+                    cout << left << setw(4) << grid[i][j];
+                }
             }
+            printed = false;
         }
     }
     cout << "\n";
 }
-int Score(int playerScore, int dice)
+int Score(int playerScore, int dice, int laddersStart[], int laddersLand[], int snakesStart[], int snakesLand[])
 {
-    int laddersStart[8] = {4, 9, 20, 28, 40, 63, 71, 88};
-    int laddersLand[8] = {14, 31, 38, 84, 59, 81, 91, 98};
-    int snakesStart[8] = {17, 54, 62, 64, 87, 93, 95, 99};
-    int snakesLand[8] = {7, 34, 18, 60, 24, 73, 75, 78};
     int score;
     score = playerScore + dice;
     if (score > 100)
