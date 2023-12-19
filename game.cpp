@@ -90,7 +90,7 @@ void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char p
         cout << "\n";
         for (j = 0; j < 10; j++)
         {
-            if (inArr(laddersStart, grid[i][j], 8))
+            if (inArr(laddersStart, grid[i][j], 8)) // if this is a ladder
             {
                 if (grid[i][j] == player1pos)
                 {
@@ -106,7 +106,7 @@ void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char p
                 }
                 printed = true;
             }
-            else if (inArr(snakesStart, grid[i][j], 8))
+            else if (inArr(snakesStart, grid[i][j], 8)) // if this is a snake
             {
                 if (grid[i][j] == player1pos)
                 {
