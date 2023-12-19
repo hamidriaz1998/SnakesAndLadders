@@ -7,6 +7,7 @@ using namespace std;
 int rollDice();
 void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char player2);
 int Score(int playerScore, int dice);
+bool inArr(int arr[], int n, int size);
 string setcolor(unsigned short color);
 int black = 0, blue = 1, green = 2, cyan = 3, red = 4, magenta = 5, brown = 6, lightwhite = 7, darkwhite = 8, lightblue = 9, lightgreen = 10, lightcyan = 11, lightred = 12, lightmagenta = 13, yellow = 14, white = 15;
 int main()
@@ -127,6 +128,15 @@ int Score(int playerScore, int dice)
         }
     }
     return score;
+}
+bool inArr(int arr[], int n, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == n)
+            return true;
+    }
+    return false;
 }
 string setcolor(unsigned short color)
 {
