@@ -4,6 +4,9 @@
 #include <conio.h>
 #include <ctime>
 using namespace std;
+// Main Menu
+void printBanner();
+void printMenu();
 // Game Functions
 int rollDice();
 void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char player2, int laddersStart[], int snakesStart[]);
@@ -29,54 +32,92 @@ int main()
     int snakesStart[8] = {17, 54, 62, 64, 87, 93, 95, 99};
     int snakesLand[8] = {7, 34, 18, 60, 24, 73, 75, 78};
 
-    char player = '*', computer = 'x';
-    int playerPosition = 0, computerPosition = 0;
-    int dice;
-    char turn = player;
+    while (true)
+    {
+        printBanner();
+        printMenu();
+        cout << "Your Choice: ";
+        int choice;
+        cin >> choice;
+        if (choice == 2)
+        {
+            system("cls");
+            return 0;
+        }
+        else if (choice == 1)
+        {
+            char player = '*', computer = 'x';
+            int playerPosition = 0, computerPosition = 0;
+            int dice;
+            char turn = player;
 
-    while (!(playerPosition >= 100 || computerPosition >= 100)) // Game loop
-    {
-        system("cls");
-        if (turn == player)
-        {
-            cout << endl;
-            cout << "It's Your turn.\nPress any key to roll the dice................. " << endl;
-            getch();
-            dice = rollDice();
-            cout << "You've got " << dice << endl;
-            cout << "Let's see where that gets you." << endl;
-            playerPosition = Score(playerPosition, dice, laddersStart, laddersLand, snakesStart, snakesLand);
-            Grid(grid, playerPosition, computerPosition, player, computer, laddersStart, snakesStart);
-            turn = computer;
-            cout << "You've played your turn\nPress any key to let the computer play................." << endl;
+            while (!(playerPosition >= 100 || computerPosition >= 100)) // Game loop
+            {
+                system("cls");
+                if (turn == player)
+                {
+                    cout << endl;
+                    cout << "It's Your turn.\nPress any key to roll the dice................. " << endl;
+                    cout << endl;
+                    getch();
+                    dice = rollDice();
+                    cout << "You've got " << dice << endl;
+                    cout << "Let's see where that gets you." << endl;
+                    playerPosition = Score(playerPosition, dice, laddersStart, laddersLand, snakesStart, snakesLand);
+                    Grid(grid, playerPosition, computerPosition, player, computer, laddersStart, snakesStart);
+                    turn = computer;
+                    cout << endl;
+                    cout << "You've played your turn\nPress any key to let the computer play................." << endl;
+                    getch();
+                }
+                else
+                {
+                    cout << endl;
+                    cout << "It's computer's turn now\nLet's see what he gets......:)" << endl;
+                    Sleep(1000);
+                    dice = rollDice();
+                    cout << "He's got " << dice << endl;
+                    computerPosition = Score(computerPosition, dice, laddersStart, laddersLand, snakesStart, snakesLand);
+                    Grid(grid, playerPosition, computerPosition, player, computer, laddersStart, snakesStart);
+                    turn = player;
+                    cout << endl;
+                    cout << "Press any key to play your continue...........";
+                    getch();
+                }
+            }
+            system("cls");
+            char winner = playerPosition >= 100 ? player : computer;
+            if (winner == player)
+            {
+                cout << "Congrats! You have won" << endl;
+            }
+            else
+            {
+                cout << "Boooooo! You have lost" << endl;
+            }
+            cout << "Press any key to return to main menu..........";
             getch();
         }
-        else
-        {
-            cout << endl;
-            cout << "It's computer's turn now\nLet's see what he gets......:)" << endl;
-            Sleep(1000);
-            dice = rollDice();
-            cout << "He's got " << dice << endl;
-            computerPosition = Score(computerPosition, dice, laddersStart, laddersLand, snakesStart, snakesLand);
-            Grid(grid, playerPosition, computerPosition, player, computer, laddersStart, snakesStart);
-            turn = player;
-            cout << "Press any key to play your continue...........";
-            getch();
-        }
-    }
-    system("cls");
-    char winner = playerPosition == 100 ? player : computer;
-    if (winner == player)
-    {
-        cout << "Congrats! You have won";
-    }
-    else
-    {
-        cout << "Boooooo! You have lost";
     }
 }
 
+void printBanner()
+{
+    system("cls");
+    cout << "   _____             _                               _   _               _     _                " << endl;
+    cout << "  / ____|           | |                             | | | |             | |   | |               " << endl;
+    cout << " | (___  _ __   __ _| | _____  ___    __ _ _ __   __| | | |     __ _  __| | __| | ___ _ __ ___  " << endl;
+    cout << "  \\___ \\| '_ \\ / _` | |/ / _ \\/ __|  / _` | '_ \\ / _` | | |    / _` |/ _` |/ _` |/ _ \\ '__/ __| " << endl;
+    cout << "  ____) | | | | (_| |   <  __/\\__ \\ | (_| | | | | (_| | | |___| (_| | (_| | (_| |  __/ |  \\__ \\ " << endl;
+    cout << " |_____/|_| |_|\\__,_|_|\\_\\___||___/  \\__,_|_| |_|\\__,_| |______\\__,_|\\__,_|\\__,_|\\___|_|  |___/ " << endl;
+}
+void printMenu()
+{
+    cout << endl;
+    cout << "Select one of the following option: " << endl;
+    cout << "1. Play Game" << endl;
+    cout << "2. Exit" << endl;
+}
 int rollDice()
 {
     int num;
