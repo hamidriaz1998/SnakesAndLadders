@@ -21,14 +21,14 @@ int main()
                         {21, 22, 23, 24, 25, 26, 27, 28, 29, 30},
                         {20, 19, 18, 17, 16, 15, 14, 13, 12, 11},
                         {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}};
-    char player1 = '*', player2 = 'x';
-    int player1pos = 0, player2pos = 0;
+    char player = '*', computer = 'x';
+    int playerPosition = 0, computerPosition = 0;
     int dice;
-    char turn = player1;
-    while (player1pos != 100 || player2pos != 100)
+    char turn = player;
+    while (playerPosition != 100 || computerPosition != 100)
     {
         system("cls");
-        if (turn == player1)
+        if (turn == player)
         {
             cout << endl;
             cout << "It's Your turn.\nPress any key to roll the dice................. " << endl;
@@ -36,9 +36,9 @@ int main()
             dice = rollDice();
             cout << "You've got " << dice << endl;
             cout << "Let's see where that gets you." << endl;
-            player1pos = Score(player1pos, dice);
-            Grid(grid, player1pos, player2pos, player1, player2);
-            turn = player2;
+            playerPosition = Score(playerPosition, dice);
+            Grid(grid, playerPosition, computerPosition, player, computer);
+            turn = computer;
             cout << "You've played your turn\nPress any key to let the computer play................." << endl;
             getch();
         }
@@ -49,16 +49,16 @@ int main()
             Sleep(1000);
             dice = rollDice();
             cout << "He's got " << dice << endl;
-            player2pos = Score(player2pos, dice);
-            Grid(grid, player1pos, player2pos, player1, player2);
-            turn = player1;
+            computerPosition = Score(computerPosition, dice);
+            Grid(grid, playerPosition, computerPosition, player, computer);
+            turn = player;
             cout << "Press any key to play your continue...........";
             getch();
         }
     }
     system("cls");
-    char winner = player1pos == 100 ? player1 : player2;
-    if (winner == player1)
+    char winner = playerPosition == 100 ? player : computer;
+    if (winner == player)
     {
         cout << "Congrats! You have won";
     }
