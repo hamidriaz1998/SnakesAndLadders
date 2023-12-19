@@ -4,14 +4,16 @@
 #include <conio.h>
 #include <ctime>
 using namespace std;
+// Game Functions
 int rollDice();
 void Grid(int grid[10][10], int player1pos, int player2pos, char player1, char player2, int laddersStart[], int snakesStart[]);
 int Score(int playerScore, int dice, int laddersStart[], int laddersLand[], int snakesStart[], int snakesLand[]);
 bool inArr(int arr[], int n, int size);
+// Colors
 string setcolor(unsigned short color);
 int black = 0, blue = 1, green = 2, cyan = 3, red = 4, magenta = 5, brown = 6, lightwhite = 7, darkwhite = 8, lightblue = 9, lightgreen = 10, lightcyan = 11, lightred = 12, lightmagenta = 13, yellow = 14, white = 15;
 int main()
-{
+{ // Data Structure
     int grid[10][10] = {{100, 99, 98, 97, 96, 95, 94, 93, 92, 91},
                         {81, 82, 83, 84, 85, 86, 87, 88, 89, 90},
                         {80, 79, 78, 77, 76, 75, 74, 73, 72, 71},
@@ -26,11 +28,13 @@ int main()
     int laddersLand[8] = {14, 31, 38, 84, 59, 81, 91, 98};
     int snakesStart[8] = {17, 54, 62, 64, 87, 93, 95, 99};
     int snakesLand[8] = {7, 34, 18, 60, 24, 73, 75, 78};
+
     char player = '*', computer = 'x';
     int playerPosition = 0, computerPosition = 0;
     int dice;
     char turn = player;
-    while (playerPosition != 100 || computerPosition != 100)
+
+    while (!(playerPosition >= 100 || computerPosition >= 100)) // Game loop
     {
         system("cls");
         if (turn == player)
